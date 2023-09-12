@@ -58,7 +58,7 @@ function Todos() {
 
 function Sidebar() {
   return (
-    <Flex direction="column" bg="gray.300" padding="20px" gap="20px">
+    <Flex direction="column" bg="gray.500" padding="20px" gap="20px">
       <Button>A</Button>
       <Button>B</Button>
       <Button>C</Button>
