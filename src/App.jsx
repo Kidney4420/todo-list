@@ -34,7 +34,13 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <Flex direction="row" height="100vh" width="100vw" bg="gray.800">
+      <Flex
+        direction="row"
+        height="100vh"
+        width="100vw"
+        bg="gray.300"
+        bgImage="url('https://bit.ly/2Z4KKcF')"
+      >
         <Sidebar />
         <Flex direction="column" width="100%" align="center">
           <Title name="current todo name" />
@@ -45,33 +51,17 @@ export default function App() {
   );
 }
 
-// export default function App() {
-//   // const [currentTodo, setCurrentTodo] = useState(0);
-
-//   return (
-//     <ChakraProvider>
-//       <Flex direction="row" height="100vh" width="100vw" bg="gray.800">
-//         <Sidebar />
-//         <Flex direction="column" width="100%" align="center">
-//           <Title name="current todo name" />
-//           <Category />
-//           {/* <Todos /> */}
-//         </Flex>
-//       </Flex>
-//     </ChakraProvider>
-//   );
-// }
-
 function Title(props) {
   return (
     <Heading
       as="h1"
-      size="xl"
+      size="l"
       align="center"
       width="1180px"
       p="15px"
-      mb="15px"
-      bg="black"
+      mb="40px"
+      bg="blue.800"
+      opacity="0.9"
     >
       {props.name}
     </Heading>
@@ -83,7 +73,15 @@ function Category() {
 
   return (
     <>
-      <Button onClick={onToggle}>Category Name</Button>
+      <Button
+        onClick={onToggle}
+        bg="whiteAlpha.600"
+        colorScheme="blue"
+        w="900px"
+        borderRadius="0"
+      >
+        Category Name
+      </Button>
       <Collapse in={isOpen} animateOpacity>
         <Todos />
       </Collapse>
@@ -91,24 +89,17 @@ function Category() {
   );
 }
 
-// function CategoryBar(props) {
-//   return (
-//     <Heading as="h2" size="l" align="center" p="15px" mb="15px" bg="gray.500">
-//       {props.name}
-//     </Heading>
-//   );
-// }
-
 function Todo(props) {
   return (
     <Flex
       direction="row"
       gap="10px"
-      bg="gray.400"
       rounded="md"
       padding="10px"
-      maxWidth="400px"
+      maxWidth="700px"
       width="full"
+      bg="black"
+      opacity="0.7"
     >
       <Checkbox /*isChecked={props.done}*/ />
       {props.name}
@@ -120,7 +111,7 @@ function Todo(props) {
 
 function Todos() {
   return (
-    <Flex direction="column" gap="10px" padding="10px" align="center">
+    <Flex direction="column" gap="10px" padding="10px" align="center" w="750px">
       {todos.map((todo) => (
         <Todo {...todo} />
       ))}
