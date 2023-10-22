@@ -6,6 +6,9 @@ import {
   Checkbox,
   Input,
   Heading,
+  useDisclosure,
+  Collapse,
+  Box,
 } from "@chakra-ui/react";
 
 const todos = [
@@ -35,12 +38,29 @@ export default function App() {
         <Sidebar />
         <Flex direction="column" width="100%" align="center">
           <Title name="current todo name" />
-          <Todos />
+          <Category />
         </Flex>
       </Flex>
     </ChakraProvider>
   );
 }
+
+// export default function App() {
+//   // const [currentTodo, setCurrentTodo] = useState(0);
+
+//   return (
+//     <ChakraProvider>
+//       <Flex direction="row" height="100vh" width="100vw" bg="gray.800">
+//         <Sidebar />
+//         <Flex direction="column" width="100%" align="center">
+//           <Title name="current todo name" />
+//           <Category />
+//           {/* <Todos /> */}
+//         </Flex>
+//       </Flex>
+//     </ChakraProvider>
+//   );
+// }
 
 function Title(props) {
   return (
@@ -58,13 +78,26 @@ function Title(props) {
   );
 }
 
-function CategoryBar(props) {
+function Category() {
+  const { isOpen, onToggle } = useDisclosure();
+
   return (
-    <Heading as="h2" size="l" align="center" p="15px" mb="15px" bg="gray.500">
-      {props.name}
-    </Heading>
+    <>
+      <Button onClick={onToggle}>Category Name</Button>
+      <Collapse in={isOpen} animateOpacity>
+        <Todos />
+      </Collapse>
+    </>
   );
 }
+
+// function CategoryBar(props) {
+//   return (
+//     <Heading as="h2" size="l" align="center" p="15px" mb="15px" bg="gray.500">
+//       {props.name}
+//     </Heading>
+//   );
+// }
 
 function Todo(props) {
   return (
@@ -88,8 +121,6 @@ function Todo(props) {
 function Todos() {
   return (
     <Flex direction="column" gap="10px" padding="10px" align="center">
-      <CategoryBar name="category" />
-
       {todos.map((todo) => (
         <Todo {...todo} />
       ))}
