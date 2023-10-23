@@ -8,8 +8,10 @@ import {
   Heading,
   useDisclosure,
   Collapse,
-  Box,
+  IconButton,
+  LightMode,
 } from "@chakra-ui/react";
+import { ChevronRightIcon, AddIcon } from "@chakra-ui/icons";
 
 const todos = [
   {
@@ -38,33 +40,29 @@ export default function App() {
         direction="row"
         height="100vh"
         width="100vw"
-        bg="gray.300"
-        bgImage="url('https://bit.ly/2Z4KKcF')"
+        bg="linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('https://bit.ly/2Z4KKcF')"
+        bgSize={"cover"}
+        backgroundPosition={"center"}
       >
         <Sidebar />
         <Flex direction="column" width="100%" align="center">
-          <Title name="current todo name" />
+          <Heading
+            as="h1"
+            size="l"
+            align="center"
+            width="1180px"
+            p="15px"
+            mb="40px"
+            bg="blue.800"
+            opacity="0.9"
+            fontFamily={"Poppins, sans-serif"}
+          >
+            Current todo name
+          </Heading>
           <Category />
         </Flex>
       </Flex>
     </ChakraProvider>
-  );
-}
-
-function Title(props) {
-  return (
-    <Heading
-      as="h1"
-      size="l"
-      align="center"
-      width="1180px"
-      p="15px"
-      mb="40px"
-      bg="blue.800"
-      opacity="0.9"
-    >
-      {props.name}
-    </Heading>
   );
 }
 
@@ -73,7 +71,20 @@ function Category() {
 
   return (
     <>
-      <Button
+      <Flex w="900px" bg="whiteAlpha.400" rounded="md" p="5px" align="center">
+        <IconButton
+          icon={<ChevronRightIcon />}
+          onClick={onToggle}
+          variant="ghost"
+          colorScheme="gray"
+        />
+        <Spacer />
+        Category
+        <Spacer />
+        <IconButton icon={<AddIcon />} variant="ghost" colorScheme="gray" />
+      </Flex>
+
+      {/* <Button
         onClick={onToggle}
         bg="whiteAlpha.600"
         colorScheme="blue"
@@ -81,7 +92,7 @@ function Category() {
         borderRadius="0"
       >
         Category Name
-      </Button>
+      </Button> */}
       <Collapse in={isOpen} animateOpacity>
         <Todos />
       </Collapse>
@@ -129,7 +140,9 @@ function Sidebar() {
       width="450px"
       opacity="0.8"
     >
-      <SearchBar />
+      <LightMode>
+        <Input placeholder="Search" variant="filled" />
+      </LightMode>
 
       <TodoListButton name="Todo List 1" />
       <TodoListButton name="Todo List 2" />
@@ -138,10 +151,10 @@ function Sidebar() {
   );
 }
 
-function SearchBar() {
-  return <Input placeholder="Search" />;
-}
-
 function TodoListButton(props) {
-  return <Button bg="gray.800">{props.name}</Button>;
+  return (
+    <Button colorScheme="whiteAlpha" variant="solid">
+      {props.name}
+    </Button>
+  );
 }
