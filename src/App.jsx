@@ -10,29 +10,70 @@ import {
   Collapse,
   IconButton,
   LightMode,
+  DarkMode,
 } from "@chakra-ui/react";
 import { ChevronRightIcon, AddIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 
-const todos = [
-  {
-    name: "Wash the cat",
-    done: true,
-    due: "Yesterday",
-  },
-  {
-    name: "Learn React",
-    done: false,
-    due: "Tomorrow",
-  },
-  {
-    name: "Sleep",
-    done: false,
-    due: "Eventually",
-  },
-];
+/*
+type Todo {
+  id: number;
+  name: strinig;
+  done: boolean;
+  due: string;
+  categoryId: number;
+};
+
+type Category {
+  id: number;
+  name: string;
+  todos: Todo[];
+}
+*/
 
 export default function App() {
-  // const [currentTodo, setCurrentTodo] = useState(0);
+  const [categories, setCategories] = useState([
+    {
+      name: "category 1",
+      todos: [
+        {
+          name: "Wash the cat",
+          done: true,
+          due: "Yesterday",
+        },
+        {
+          name: "Learn React",
+          done: false,
+          due: "Tomorrow",
+        },
+        {
+          name: "Sleep",
+          done: false,
+          due: "Eventually",
+        },
+      ],
+    },
+  ]);
+
+  function handleAddCategory() {
+    const newCategory = {
+      name: "new category",
+      todos: [],
+    };
+
+    setCategories([...categories.slice(), newCategory]);
+  }
+
+  function handleAddTodo(categoryIdx) {
+    const newCategories = categories.slice();
+    newCategories[categoryIdx].todos.push({
+      name: "New Todo",
+      done: false,
+      due: "None",
+    });
+
+    setCategories(newCategories);
+  }
 
   return (
     <ChakraProvider>
@@ -50,7 +91,7 @@ export default function App() {
             as="h1"
             size="l"
             align="center"
-            width="1180px"
+            width="100%"
             p="15px"
             mb="40px"
             bg="blue.800"
@@ -59,19 +100,38 @@ export default function App() {
           >
             Current todo name
           </Heading>
-          <Category />
+
+          {categories.map((category, idx) => {
+            return (
+              <Category
+                category={category}
+                onAddTodo={() => handleAddTodo(idx)}
+              />
+            );
+          })}
+
+          <Spacer />
+
+          <Button
+            width="700px"
+            my="50px"
+            colorScheme="blackAlpha"
+            onClick={handleAddCategory}
+          >
+            Add Category
+          </Button>
         </Flex>
       </Flex>
     </ChakraProvider>
   );
 }
 
-function Category() {
+function Category({ category, onAddTodo }) {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
     <>
-      <Flex w="900px" bg="whiteAlpha.400" rounded="md" p="5px" align="center">
+      <Flex bg="whiteAlpha.400" rounded="md" p="5px" align="center" width="70%">
         <IconButton
           icon={<ChevronRightIcon />}
           onClick={onToggle}
@@ -79,22 +139,17 @@ function Category() {
           colorScheme="gray"
         />
         <Spacer />
-        Category
+        {category.name}
         <Spacer />
-        <IconButton icon={<AddIcon />} variant="ghost" colorScheme="gray" />
+        <IconButton
+          icon={<AddIcon />}
+          variant="ghost"
+          colorScheme="gray"
+          onClick={category.onPlay}
+        />
       </Flex>
-
-      {/* <Button
-        onClick={onToggle}
-        bg="whiteAlpha.600"
-        colorScheme="blue"
-        w="900px"
-        borderRadius="0"
-      >
-        Category Name
-      </Button> */}
       <Collapse in={isOpen} animateOpacity>
-        <Todos />
+        <Todos todos={category.todos} />
       </Collapse>
     </>
   );
@@ -102,28 +157,30 @@ function Category() {
 
 function Todo(props) {
   return (
-    <Flex
-      direction="row"
-      gap="10px"
-      rounded="md"
-      padding="10px"
-      maxWidth="700px"
-      width="full"
-      bg="black"
-      opacity="0.7"
-    >
-      <Checkbox /*isChecked={props.done}*/ />
-      {props.name}
-      <Spacer />
-      {props.due}
-    </Flex>
+    <DarkMode>
+      <Flex
+        direction="row"
+        gap="10px"
+        rounded="md"
+        padding="10px"
+        maxWidth="700px"
+        width="full"
+        bg="blackAlpha.600"
+        color="whiteAlpha.600"
+      >
+        <Checkbox /*isChecked={props.done}*/ />
+        {props.name}
+        <Spacer />
+        {props.due}
+      </Flex>
+    </DarkMode>
   );
 }
 
-function Todos() {
+function Todos({ todos }) {
   return (
     <Flex direction="column" gap="10px" padding="10px" align="center" w="750px">
-      {todos.map((todo) => (
+      {todos.map((todo, idx) => (
         <Todo {...todo} />
       ))}
     </Flex>
@@ -137,7 +194,7 @@ function Sidebar() {
       bg="black"
       padding="20px"
       gap="20px"
-      width="450px"
+      width="25%"
       opacity="0.8"
     >
       <LightMode>
