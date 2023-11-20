@@ -3,17 +3,12 @@ import {
   Flex,
   Button,
   Spacer,
-  Checkbox,
-  Input,
   Heading,
-  useDisclosure,
-  Collapse,
-  IconButton,
-  LightMode,
-  DarkMode,
 } from "@chakra-ui/react";
-import { ChevronRightIcon, AddIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+
+import Category from "./components/Category.jsx";
+import Sidebar from "./components/Sidebar.jsx";
 
 /*
 type Todo {
@@ -123,95 +118,5 @@ export default function App() {
         </Flex>
       </Flex>
     </ChakraProvider>
-  );
-}
-
-function Category({ category, onAddTodo }) {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <>
-      <Flex bg="whiteAlpha.400" rounded="md" p="5px" align="center" width="70%">
-        <IconButton
-          icon={<ChevronRightIcon />}
-          onClick={onToggle}
-          variant="ghost"
-          colorScheme="gray"
-        />
-        <Spacer />
-        {category.name}
-        <Spacer />
-        <IconButton
-          icon={<AddIcon />}
-          variant="ghost"
-          colorScheme="gray"
-          onClick={category.onPlay}
-        />
-      </Flex>
-      <Collapse in={isOpen} animateOpacity>
-        <Todos todos={category.todos} />
-      </Collapse>
-    </>
-  );
-}
-
-function Todo(props) {
-  return (
-    <DarkMode>
-      <Flex
-        direction="row"
-        gap="10px"
-        rounded="md"
-        padding="10px"
-        maxWidth="700px"
-        width="full"
-        bg="blackAlpha.600"
-        color="whiteAlpha.600"
-      >
-        <Checkbox /*isChecked={props.done}*/ />
-        {props.name}
-        <Spacer />
-        {props.due}
-      </Flex>
-    </DarkMode>
-  );
-}
-
-function Todos({ todos }) {
-  return (
-    <Flex direction="column" gap="10px" padding="10px" align="center" w="750px">
-      {todos.map((todo, idx) => (
-        <Todo {...todo} />
-      ))}
-    </Flex>
-  );
-}
-
-function Sidebar() {
-  return (
-    <Flex
-      direction="column"
-      bg="black"
-      padding="20px"
-      gap="20px"
-      width="25%"
-      opacity="0.8"
-    >
-      <LightMode>
-        <Input placeholder="Search" variant="filled" />
-      </LightMode>
-
-      <TodoListButton name="Todo List 1" />
-      <TodoListButton name="Todo List 2" />
-      <TodoListButton name="Todo List 3" />
-    </Flex>
-  );
-}
-
-function TodoListButton(props) {
-  return (
-    <Button colorScheme="whiteAlpha" variant="solid">
-      {props.name}
-    </Button>
   );
 }
